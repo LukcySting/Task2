@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Коммуникатор</title>
+  {% load staticfiles %}
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <script src="{% static 'js/axios.min.js' %}"></script>
+  <script src="{% static 'js/vue.min.js' %}"></script>
+  <style>
+    body{
+        background: url("{% static 'images/BackGround.jpg' %}");
+        background-size: cover;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-position: 50%;
+        margin: 0 auto;
+        background-color = black;
+        padding-top: 15%;
+    }
+  </style>
+</head>
+<body>
+    <div class="container text-center jumbotron" style="background:#fafafa" id="new_pay">
+        <div class="row">
+            <div class="col col-md-9">
+                <div class="container" >
+                    <div class="row justify-content-between">
+                            <h2>Таблица основного долга</h2>
+                    </div>
+                    <div class="row justify-content-between">
+                        <div class="col col-md-2">
+                                <button class="btn" v-on:click="add_pay">Добавить</button>
+                        </div>
+                        <div class="col col-md-2">
+                                <button class="btn" v-on:click="new_task">Новый</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr class="font-weight-bold table-active">
+                                        <td>Дата</td>
+                                        <td>Поступление основного долга</td>
+                                        <td>Погашение основного долга</td>
+                                    </tr>
+                                    <tr  class="font-weight-bold table-bordered">
+                                        <td><input v-model="date" class="form-control"  type="date"></td>
+                                        <td><input v-model="pay_out" class="form-control"  type="number"></td>
+                                        <td><input v-model="pay_in" class="form-control"  type="number"></td>
+                                    </tr>
+                                    <tr v-for="pm in payments"
+                                     v-bind:class="{ 'table-success' : pm.pay_out, 'table-danger' : pm.pay_in}">
+                                        <td>[[pm.date]]</td>
+                                        <td>[[pm.pay_out]]</td>
+                                        <td>[[pm.pay_in]]</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    </div>
+                    <div class="row">
+                            <table class="table table-bordered ">
+                                <tbody>
+                                    <tr class="font-weight-bold table-active">
+                                        <td>Дата начисления процентов</td>
+                                        <td>Начислено за месяц</td>
+                                    </tr>
+                                    <tr class="table-info" v-for="pc in percents">
+                                        <td>[[pc.date]]</td>
+                                        <td>[[pc.percent | round]]</td>
+                                    </tr>
+                                    <tr >
+                                        <td>Всего начислено процентов:</td>
+                                        <td>[[sum_percents | round]]</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-md-3">
+                <p>Дата начисления процентов</p>
+                <input v-model="pay_day" сlass="form-control" type="number" max="31">
+                <p>Процентная ставка</p>
+                <input v-model="pay_p" сlass="form-control" type="number">
+                <button class="btn" v-on:click="solute">Рассчитать</button>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>
